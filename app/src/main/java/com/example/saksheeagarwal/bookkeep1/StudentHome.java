@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 public class StudentHome extends AppCompatActivity {
 
-    Button search, seerec, rate, profile;
+
 
 
 
@@ -20,6 +20,7 @@ public class StudentHome extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shome);
+        Button search, seerec, rate, profile;
 
 
         search = (Button) findViewById(R.id.search);
@@ -36,7 +37,7 @@ public class StudentHome extends AppCompatActivity {
 
                 Intent i = new Intent(StudentHome.this,search.class);
                 startActivity(i);
-                setContentView(R.layout.search);
+               // setContentView(R.layout.search);
 
             }
         });
@@ -46,7 +47,7 @@ public class StudentHome extends AppCompatActivity {
 
                 Intent i = new Intent(StudentHome.this,SeeRec.class);
                 startActivity(i);
-                setContentView(R.layout.seerecom);
+                //setContentView(R.layout.seerecom);
 
             }
         });
@@ -56,7 +57,7 @@ public class StudentHome extends AppCompatActivity {
 
                 Intent i = new Intent(StudentHome.this,RateSearch.class);
                 startActivity(i);
-                setContentView(R.layout.ratesearch);
+                //setContentView(R.layout.ratesearch);
 
             }
         });

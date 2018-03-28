@@ -37,9 +37,10 @@ public class RateSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ratesearch);
 
-        name=(EditText)findViewById(R.id.name);
 
-        viewButton=(Button)findViewById(R.id.submit);
+        name=(EditText)findViewById(R.id.name2);
+
+        viewButton=(Button)findViewById(R.id.submit2);
 
         lv = (ListView) findViewById(R.id.lv);
         //allStudents=new ArrayList<>();
@@ -95,9 +96,9 @@ public class RateSearch extends AppCompatActivity {
         lv.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) { // Item position is in the variable position.
 
-               RateSearch selItem = (RateSearch) lv.getSelectedItem(); //
-                String value= selItem.toString();
-                Toast.makeText(getApplicationContext(),value,Toast.LENGTH_LONG).show();
+//               RateSearch selItem = (RateSearch) lv.getSelectedItem();
+//                String value= selItem.toString();
+                Toast.makeText(getApplicationContext(),booklist.get(position).toString(),Toast.LENGTH_LONG).show();
 
             }
         });

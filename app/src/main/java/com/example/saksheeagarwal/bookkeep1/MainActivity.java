@@ -1,14 +1,16 @@
 package com.example.saksheeagarwal.bookkeep1;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.location.Location;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.content.Intent;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Inserted!", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
 
-            if (e.toString().contains("code 1555"))
-                Toast.makeText(getApplicationContext(), "Not inserted", Toast.LENGTH_SHORT).show();
+           // if (e.toString().contains("code 1555"))
+                //Toast.makeText(getApplicationContext(), "Not inserted", Toast.LENGTH_SHORT).show();
         }
 
         Register.setOnClickListener(new View.OnClickListener() {
@@ -68,28 +70,42 @@ public class MainActivity extends AppCompatActivity {
                 if (user.equals("") || pwd.equals("") ) {
                     Toast.makeText(getApplicationContext(), "Please enter all details!", Toast.LENGTH_LONG).show();
                 }
+                else{
                 Cursor c = database.rawQuery("SELECT * FROM Loginn WHERE TRIM(user) = '"+user.trim()+"' AND TRIM(pass)= '"+pwd.trim()+"'", null);
+                float[] results = new float[1];
+                double centerLatitude=13.3525;
+                double centerLongitude=74.7928;
+                double testLatitude=13.3525;
+                double testLongitude=74.7928;
+                Location.distanceBetween(centerLatitude, centerLongitude, testLatitude, testLongitude, results);
+                float distanceInMeters = results[0];
+                boolean isWithin10km = distanceInMeters < 1000000;
 
-
-                if(c.moveToFirst()){
+                if(c.moveToFirst() && isWithin10km){
                     String s= c.getString(0);
+
+
                     if(s.contains("stu")){
+
                     Intent i = new Intent(MainActivity.this,StudentHome.class);
                     startActivity(i);
-                    setContentView(R.layout.shome);}
+                    //setContentView(R.layout.shome);
+                         }
                     else{
+
+
                         Intent i = new Intent(MainActivity.this,TeacherHome.class);
                         startActivity(i);
-                        setContentView(R.layout.thome);
+                       // setContentView(R.layout.thome);
                     }
 
 
                 }
                 else {
-                    Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Invalid Credentials or Not in Manipal Campus", Toast.LENGTH_SHORT).show();
 
                 }
-            }
+            }}
         });
 
 

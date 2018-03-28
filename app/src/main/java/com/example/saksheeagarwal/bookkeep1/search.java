@@ -58,8 +58,8 @@ public class search extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Inserted", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
 
-            if (e.toString().contains("code 1555"))
-                Toast.makeText(getApplicationContext(), "Not inserted", Toast.LENGTH_SHORT).show();
+            //if (e.toString().contains("code 1555"))
+                //Toast.makeText(getApplicationContext(), "Not inserted", Toast.LENGTH_SHORT).show();
         }
 
         viewButton.setOnClickListener(new View.OnClickListener() {

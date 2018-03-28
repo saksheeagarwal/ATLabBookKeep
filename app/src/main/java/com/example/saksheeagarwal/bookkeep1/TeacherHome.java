@@ -36,7 +36,7 @@ public class TeacherHome extends AppCompatActivity {
 
                 Intent i = new Intent(TeacherHome.this,search.class);
                 startActivity(i);
-                setContentView(R.layout.search);
+                //setContentView(R.layout.search);
 
             }
         });
@@ -46,7 +46,7 @@ public class TeacherHome extends AppCompatActivity {
 
                 Intent i = new Intent(TeacherHome.this,SeeRec.class);
                 startActivity(i);
-                setContentView(R.layout.seerecom);
+               // setContentView(R.layout.seerecom);
 
             }
         });
