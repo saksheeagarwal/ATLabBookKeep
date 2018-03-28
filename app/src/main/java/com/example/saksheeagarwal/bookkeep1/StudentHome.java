@@ -50,6 +50,16 @@ public class StudentHome extends AppCompatActivity {
 
             }
         });
+        rate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(StudentHome.this,RateSearch.class);
+                startActivity(i);
+                setContentView(R.layout.ratesearch);
+
+            }
+        });
 
 
 

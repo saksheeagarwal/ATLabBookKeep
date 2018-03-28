@@ -31,6 +31,9 @@
         <activity android:name=".TeacherHome">
 
         </activity>
+        <activity android:name=".RateSearch">
+
+        </activity>
 
     </application>
 
