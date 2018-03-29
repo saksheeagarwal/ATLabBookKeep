@@ -27,7 +27,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
-    private SensorManager mSensorManager;
     EditText uname;
     EditText pass;
     Button Login;
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     TextView tv ;
 
-
+    private SensorManager mSensorManager;
     private Sensor mSensorProximity;
     private Sensor mSensorLight;
 
@@ -52,8 +51,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 (SensorManager) getSystemService(SENSOR_SERVICE);
         mSensorLight = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
 
-        mSensorManager.registerListener(this, mSensorLight,
-                SensorManager.SENSOR_DELAY_NORMAL);
+        //mSensorManager.registerListener(this, mSensorLight,
+              //  SensorManager.SENSOR_DELAY_NORMAL);
 
 
 
@@ -118,14 +117,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 float[] results = new float[1];
                 double centerLatitude=13.3525;
                 double centerLongitude=74.7928;
-                double testLatitude=9;
-                double testLongitude=9;
+                double testLatitude=13.3525;
+                double testLongitude=74.7928;
 
 
 
                 Location.distanceBetween(centerLatitude, centerLongitude, testLatitude, testLongitude, results);
                 float distanceInMeters = results[0];
-                boolean isWithin10km = distanceInMeters < 10000;
+                boolean isWithin10km = distanceInMeters < 100000;
 
                 if(c.moveToFirst() && isWithin10km){
                     String s= c.getString(0);
