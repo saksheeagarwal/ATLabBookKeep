@@ -21,6 +21,7 @@ public class ProfilePage extends AppCompatActivity {
 
 
     SQLiteDatabase database;
+    String naam;
     ArrayList<String> booklist;
 
     @Override
@@ -30,7 +31,15 @@ public class ProfilePage extends AppCompatActivity {
         ListView listv = findViewById(R.id.lvv);
         TextView name = findViewById(R.id.textView);
 
+        Bundle extras = getIntent().getExtras();
+        if(extras!=null)
+        {
+            naam = extras.getString("name").toString();
 
+
+        }
+
+        name.setText(naam);
         try {
             database = openOrCreateDatabase("Bookkeep", MODE_PRIVATE, null);
             database.execSQL("CREATE TABLE IF NOT EXISTS Dues (user VARCHAR(50) ,bookname VARCHAR(100) , dueDate VARCHAR(50));");

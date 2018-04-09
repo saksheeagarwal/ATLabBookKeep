@@ -142,21 +142,33 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     Location.distanceBetween(centerLatitude, centerLongitude, testLatitude, testLongitude, results);
                     float distanceInMeters = results[0];
                     boolean isWithin10km = distanceInMeters < 100000;
-
+                    isWithin10km = true;
                     System.out.println("************* HELOOOOO MAIN *************"+ isWithin10km);
                     if (c.moveToFirst() && isWithin10km) {
                         String s = c.getString(0);
+                        String name   = c.getString(1);
 
 
                         if (s.contains("stu")) {
 
                             Intent i = new Intent(MainActivity.this, StudentHome.class);
+
+
+                            Bundle nb =  new Bundle();
+                            nb.putString("name",name);
+                            i.putExtras(nb);
                             startActivity(i);
+
                             //setContentView(R.layout.shome);
                         } else {
 
 
                             Intent i = new Intent(MainActivity.this, TeacherHome.class);
+
+                            Bundle nb =  new Bundle();
+                            nb.putString("name",name);
+                            System.out.println(name);
+                            i.putExtras(nb);
                             startActivity(i);
                             // setContentView(R.layout.thome);
                         }
@@ -197,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         switch (sensorType) {
             // Event came from the light sensor.
             case Sensor.TYPE_LIGHT:
-                if (currentValue > 20000) {
+                if (currentValue > 250) {
                     //setTheme(android.R.style.Theme_Holo_Light);
                     //this.recreate();
                     // Utils.changeToTheme(this, Utils.THEME_BLUE);

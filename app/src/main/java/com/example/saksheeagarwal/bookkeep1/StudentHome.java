@@ -15,11 +15,16 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,14 +35,27 @@ public class StudentHome extends AppCompatActivity implements SensorEventListene
 
     private Sensor mSensorProximity;
     private Sensor mSensorLight;
+    String name;
+
+
+    ArrayAdapter<String> mAdapter;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shome);
+        Bundle extras = getIntent().getExtras();
+        if(extras!=null)
+        {
+             name = extras.getString("name").toString();
+
+
+        }
 
         mSensorManager =
                 (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -48,10 +66,17 @@ public class StudentHome extends AppCompatActivity implements SensorEventListene
 
 
 
+
         Sensor mSensorProximity;
         Sensor mSensorLight;
         String mTextSensorLight;
         String mTextSensorProximity;
+
+
+        //setupDrawer();
+
+
+
 
         mSensorProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
 
@@ -66,6 +91,7 @@ public class StudentHome extends AppCompatActivity implements SensorEventListene
         seerec = (Button) findViewById(R.id.seerec);
         //rate= (Button) findViewById(R.id.rate);
         profile = (Button) findViewById(R.id.profile);
+
 
 
 
@@ -106,6 +132,11 @@ public class StudentHome extends AppCompatActivity implements SensorEventListene
             public void onClick(View v) {
 
                 Intent i = new Intent(StudentHome.this,ProfilePage.class);
+
+                Bundle nb =  new Bundle();
+                nb.putString("name",name);
+                System.out.println(name);
+                i.putExtras(nb);
                 startActivity(i);
                 //setContentView(R.layout.ratesearch);
 
@@ -141,7 +172,7 @@ public class StudentHome extends AppCompatActivity implements SensorEventListene
         switch (sensorType) {
             // Event came from the light sensor.
             case Sensor.TYPE_LIGHT:
-                if(currentValue>20000)
+                if(currentValue>250)
                 {
                     //setTheme(android.R.style.Theme_Holo_Light);
                     //this.recreate();
@@ -168,4 +199,8 @@ public class StudentHome extends AppCompatActivity implements SensorEventListene
     public void onAccuracyChanged(Sensor sensor, int i) {
 
     }
+
+
+
+
 }

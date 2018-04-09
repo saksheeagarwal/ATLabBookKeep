@@ -36,7 +36,7 @@ public class TeacherHome extends AppCompatActivity implements SensorEventListene
     private SensorManager mSensorManager;
     private Sensor mSensorProximity;
     private Sensor mSensorLight;
-
+    String name;
 
 
 
@@ -44,6 +44,14 @@ public class TeacherHome extends AppCompatActivity implements SensorEventListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.thome);
+
+        Bundle extras = getIntent().getExtras();
+        if(extras!=null)
+        {
+            name = extras.getString("name").toString();
+
+
+        }
         search = (Button) findViewById(R.id.searchh2);
         seerec = (Button) findViewById(R.id.seerec2);
         rate= (Button) findViewById(R.id.rate2);
@@ -107,7 +115,11 @@ public class TeacherHome extends AppCompatActivity implements SensorEventListene
             public void onClick(View v) {
 
                 Intent i = new Intent(TeacherHome.this,ProfilePage.class);
+                Bundle nb =  new Bundle();
+                nb.putString("name",name);
+                i.putExtras(nb);
                 startActivity(i);
+
                 //setContentView(R.layout.ratesearch);
 
             }
@@ -141,7 +153,7 @@ public class TeacherHome extends AppCompatActivity implements SensorEventListene
         switch (sensorType) {
             // Event came from the light sensor.
             case Sensor.TYPE_LIGHT:
-                if(currentValue>20000)
+                if(currentValue>250)
                 {
                     //setTheme(android.R.style.Theme_Holo_Light);
                     //this.recreate();
