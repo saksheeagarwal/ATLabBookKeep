@@ -91,6 +91,17 @@ public class TeacherHome extends AppCompatActivity implements SensorEventListene
             }
         });
 
+        rate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(TeacherHome.this,RateSearch.class);
+                startActivity(i);
+                //setContentView(R.layout.search);
+
+            }
+        });
+
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

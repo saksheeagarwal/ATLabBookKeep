@@ -4,6 +4,7 @@ package com.example.saksheeagarwal.bookkeep1;
  * Created by saksheeagarwal on 3/23/18.
  */
 
+import android.app.Dialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -16,12 +17,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 import java.util.ArrayList;
 
-import angtrim.com.fivestarslibrary.FiveStarsDialog;
+import es.dmoral.toasty.Toasty;
+
 
 public class RateSearch extends AppCompatActivity {
 
@@ -74,7 +78,9 @@ public class RateSearch extends AppCompatActivity {
 
                 booklist = new ArrayList<String>();
                 String Author=name.getText().toString();
+
                 Cursor c = database.rawQuery("SELECT * FROM books WHERE TRIM(Author) = '"+Author.trim()+"' OR TRIM(bookName) = '"+Author.trim()+"'", new String[]{});
+                System.out.println("SELECT * FROM books WHERE TRIM(Author) = '"+Author.trim()+"' OR TRIM(bookName) = '"+Author.trim()+"'");
                 if (c.moveToFirst()) {
                     do {
                         String id = c.getString(0);
@@ -104,6 +110,27 @@ public class RateSearch extends AppCompatActivity {
 //                String value= selItem.toString();
 
                 //Toast.makeText(getApplicationContext(),booklist.get(position).toString(),Toast.LENGTH_LONG).show();
+
+               final Dialog rankDialog = new Dialog(RateSearch.this, R.style.FullHeightDialog);
+                rankDialog.setContentView(R.layout.rank_dialog);
+                rankDialog.setCancelable(true);
+                final RatingBar ratingBar = (RatingBar)rankDialog.findViewById(R.id.dialog_ratingbar);
+                ratingBar.setRating(5);
+
+                TextView text = (TextView) rankDialog.findViewById(R.id.rank_dialog_text1);
+                text.setText("Enter Rating");
+
+                Button updateButton = (Button) rankDialog.findViewById(R.id.rank_dialog_button);
+                updateButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        float rating = ratingBar.getRating();
+                        Toasty.success(getApplicationContext(), "Successfully Rated!", Toast.LENGTH_SHORT, true).show();
+                        rankDialog.dismiss();
+                    }
+                });
+                //now that the dialog is set up, it's time to show it
+                rankDialog.show();
 
             }
         });

@@ -40,7 +40,7 @@ public class SeeRec extends AppCompatActivity {
         lv = (ListView) findViewById(R.id.lv);
 
         final ArrayList<String> branchh = new ArrayList<String>();
-        branchh.add("IT");
+        branchh.add("it");
         branchh.add("CS");
       final  ArrayList<String> semm = new ArrayList<String>();
         semm.add("6");
@@ -57,8 +57,8 @@ public class SeeRec extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView,
                                        View view, int i, long l) {
                 // TODO Auto-generated method stub
-                Toast.makeText(SeeRec.this,"You Selected : "
-                        + branchh.get(i)+" Level ",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(SeeRec.this,"You Selected : "
+//                        + branchh.get(i)+" Level ",Toast.LENGTH_SHORT).show();
 
             }
             // If no option selected
@@ -74,8 +74,8 @@ public class SeeRec extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView,
                                        View view, int i, long l) {
                 // TODO Auto-generated method stub
-                Toast.makeText(SeeRec.this,"You Selected : "
-                        + semm.get(i)+" Level ",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(SeeRec.this,"You Selected : "
+//                        + semm.get(i)+" Level ",Toast.LENGTH_SHORT).show();
 
             }
             // If no option selected
@@ -98,12 +98,14 @@ public class SeeRec extends AppCompatActivity {
                 booklist = new ArrayList<String>();
                 String bra = branch.getSelectedItem().toString();
                 String se = sem.getSelectedItem().toString();
-                int s= Integer.parseInt(se);
-                Cursor c = database.rawQuery("SELECT * FROM books WHERE TRIM(branch) = '"+bra.trim()+"' AND TRIM(semester) = "+s+"", new String[]{});
+
+                System.out.println("SELECT * FROM books WHERE TRIM(branch) = '"+bra.trim()+"' AND TRIM(semester) = '"+se+"'");
+                Cursor c = database.rawQuery("SELECT * FROM books WHERE TRIM(branch) = '"+bra.trim()+"' AND TRIM(semester) = '"+se+"'", new String[]{});
 
 
                 if (c.moveToFirst()) {
                     do {
+                        System.out.println("did reac");
                         String id = c.getString(0);
                         String bname = c.getString(1);
                         String Auth = c.getString(6);

@@ -59,12 +59,12 @@ public class StudentHome extends AppCompatActivity implements SensorEventListene
 //            Toast.makeText(getApplicationContext(),"nope",Toast.LENGTH_LONG).show();
 //        }
 
-        Button search, seerec, rate, profile;
+        Button search, seerec, profile;
 
 
         search = (Button) findViewById(R.id.search);
         seerec = (Button) findViewById(R.id.seerec);
-        rate= (Button) findViewById(R.id.rate);
+        //rate= (Button) findViewById(R.id.rate);
         profile = (Button) findViewById(R.id.profile);
 
 
@@ -90,16 +90,16 @@ public class StudentHome extends AppCompatActivity implements SensorEventListene
 
             }
         });
-        rate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent i = new Intent(StudentHome.this,RateSearch.class);
-                startActivity(i);
-                //setContentView(R.layout.ratesearch);
-
-            }
-        });
+//        rate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                Intent i = new Intent(StudentHome.this,RateSearch.class);
+//                startActivity(i);
+//                //setContentView(R.layout.ratesearch);
+//
+//            }
+//        });
 
         profile.setOnClickListener(new View.OnClickListener() {
             @Override

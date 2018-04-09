@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     float distanceInMeters = results[0];
                     boolean isWithin10km = distanceInMeters < 100000;
 
+                    System.out.println("************* HELOOOOO MAIN *************"+ isWithin10km);
                     if (c.moveToFirst() && isWithin10km) {
                         String s = c.getString(0);
 

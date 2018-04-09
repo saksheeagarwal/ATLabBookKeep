@@ -18,10 +18,12 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,9 +41,9 @@ import android.widget.Toast;
 
         import java.util.ArrayList;
 
-public class search extends AppCompatActivity implements SensorEventListener  {
+public class search extends AppCompatActivity implements SensorEventListener, SearchView.OnQueryTextListener  {
 
-    EditText name;
+    SearchView name;
 
     Button viewButton;
 
@@ -55,12 +57,13 @@ public class search extends AppCompatActivity implements SensorEventListener  {
 
     boolean listOpen=false;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
 
-        name=(EditText)findViewById(R.id.name);
+        name=(SearchView)findViewById(R.id.name);
 
         mSensorManager =
                 (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -86,15 +89,15 @@ public class search extends AppCompatActivity implements SensorEventListener  {
 
         try {
             database=openOrCreateDatabase("Bookkeep",MODE_PRIVATE,null);
-            database.execSQL("CREATE TABLE IF NOT EXISTS books (id VARCHAR(100) PRIMARY KEY, bookName varchar(20), branch varchar(20),semester integer, subject varchar(20),rate integer,Author varchar(20));");
+            database.execSQL("CREATE TABLE IF NOT EXISTS books (id VARCHAR(100) PRIMARY KEY, bookName varchar(20), branch varchar(20),semester varchar(10), subject varchar(20),rate integer,Author varchar(20), Availability varchar(20));");
         }
         catch (Exception e){
             Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT).show();
         }
         try {
-            database.execSQL("INSERT INTO books VALUES('itc602','Voice over IP Fundamentals','it',6,'cnw',4,'M.Morris Mano')");
-            database.execSQL("INSERT INTO books VALUES('itc603','Data Warehousing and Data Mining','it',6,'dwdm',3,'Arun Pujari')");
-            database.execSQL("INSERT INTO books VALUES('ict443','Unified Modeling Language User Guide by Grady Booch','it',4,'SE',3,'Grady Booch')");
+            database.execSQL("INSERT INTO books VALUES('itc602','Voice over IP Fundamentals','it','6','cnw',4,'M.Morris Mano',10)");
+            database.execSQL("INSERT INTO books VALUES('itc603','Data Warehousing and Data Mining','it','6','dwdm',3,'Arun Pujari',5)");
+            database.execSQL("INSERT INTO books VALUES('ict443','Unified Modeling Language User Guide by Grady Booch','it','4','SE',3,'Grady Booch',2)");
             Toast.makeText(getApplicationContext(), "Inserted", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
 
@@ -102,35 +105,56 @@ public class search extends AppCompatActivity implements SensorEventListener  {
                 //Toast.makeText(getApplicationContext(), "Not inserted", Toast.LENGTH_SHORT).show();
         }
 
-        viewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                booklist = new ArrayList<String>();
-                String Author=name.getText().toString();
-                Cursor c = database.rawQuery("SELECT * FROM books WHERE TRIM(Author) = '"+Author.trim()+"' OR TRIM(bookName) = '"+Author.trim()+"'", new String[]{});
+        booklist = new ArrayList<String>();
+        Cursor c = database.rawQuery("SELECT * FROM books", new String[]{});
                 if (c.moveToFirst()) {
                     do {
                         String id = c.getString(0);
                         String bname = c.getString(1);
                         String Auth = c.getString(6);
-                        booklist.add("ID :"+id+ "\nName :" + bname + "\nAuthor :" + Auth );
+                        String avail = c.getString(7);
+                       booklist.add("ID : "+id+ "\nName : " + bname + "\nAuthor : " + Auth + "\nAvailability: " + avail);
+
                     }
                     while (c.moveToNext());
 
                     c.close();
-
-                // This is the array adapter, it takes the context of the activity as a
-                // first parameter, the type of list view as a second parameter and your
-                // array as a third parameter.
                     ArrayAdapter<String> arrayAdapter =
                             new ArrayAdapter<String>(search.this,android.R.layout.simple_list_item_1, booklist);
-                lv.setAdapter(arrayAdapter);
+               lv.setAdapter(arrayAdapter);
+               lv.setTextFilterEnabled(true);
+                    name.setOnQueryTextListener(this);
+                    setupSearchView();}
 
-
-
-            }}
-        });
+//        viewButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                booklist = new ArrayList<String>();
+//                String Author=name.getText().toString();
+//                Cursor c = database.rawQuery("SELECT * FROM books WHERE TRIM(Author) = '"+Author.trim()+"' OR TRIM(bookName) = '"+Author.trim()+"'", new String[]{});
+//                if (c.moveToFirst()) {
+//                    do {
+//                        String id = c.getString(0);
+//                        String bname = c.getString(1);
+//                        String Auth = c.getString(6);
+//                        booklist.add("ID :"+id+ "\nName :" + bname + "\nAuthor :" + Auth );
+//                    }
+//                    while (c.moveToNext());
+//
+//                    c.close();
+//
+//                // This is the array adapter, it takes the context of the activity as a
+//                // first parameter, the type of list view as a second parameter and your
+//                // array as a third parameter.
+//                    ArrayAdapter<String> arrayAdapter =
+//                            new ArrayAdapter<String>(search.this,android.R.layout.simple_list_item_1, booklist);
+//                lv.setAdapter(arrayAdapter);
+//
+//
+//
+//            }}
+//        });
 
 
     }
@@ -184,6 +208,26 @@ public class search extends AppCompatActivity implements SensorEventListener  {
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
 
+    }
+
+    private void setupSearchView() {
+        name.setIconifiedByDefault(false);
+        name.setOnQueryTextListener(this);
+        name.setSubmitButtonEnabled(false);
+        //name.setQueryHint(getString(R.string.booklist));
+    }
+
+    public boolean onQueryTextChange(String newText) {
+        if (TextUtils.isEmpty(newText)) {
+            lv.clearTextFilter();
+        } else {
+            lv.setFilterText(newText.toString());
+        }
+        return true;
+    }
+
+    public boolean onQueryTextSubmit(String query) {
+        return false;
     }
 }
 

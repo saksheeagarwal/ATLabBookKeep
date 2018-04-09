@@ -18,13 +18,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Reg"></activity>
-        <activity android:name=".StudentHome"></activity>
-        <activity android:name=".search"></activity>
-        <activity android:name=".SeeRec"></activity>
-        <activity android:name=".TeacherHome"></activity>
-        <activity android:name=".RateSearch"></activity>
-        <activity android:name=".ProfilePage"></activity>
+        <activity android:name=".Reg" />
+        <activity android:name=".StudentHome" />
+        <activity android:name=".search" />
+        <activity android:name=".SeeRec" />
+        <activity android:name=".TeacherHome" />
+        <activity android:name=".RateSearch" />
+        <activity android:name=".ProfilePage" />
+        <activity android:name=".ratingPage"></activity>
     </application>
 
 </manifest>
