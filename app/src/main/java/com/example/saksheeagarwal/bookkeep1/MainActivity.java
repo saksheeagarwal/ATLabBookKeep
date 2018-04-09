@@ -3,6 +3,7 @@ package com.example.saksheeagarwal.bookkeep1;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -14,6 +15,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -31,9 +33,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     EditText pass;
     Button Login;
     Button Register;
-
-
-    TextView tv ;
+    double testLatitude ;
+    double testLongitude ;
+    LocationManager mLocationManager;
+    TextView tv;
 
     private SensorManager mSensorManager;
     private Sensor mSensorProximity;
@@ -52,16 +55,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mSensorLight = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
 
         //mSensorManager.registerListener(this, mSensorLight,
-              //  SensorManager.SENSOR_DELAY_NORMAL);
+        //  SensorManager.SENSOR_DELAY_NORMAL);
 
 
-
-         Sensor mSensorProximity;
-         Sensor mSensorLight;
-         String mTextSensorLight;
+        Sensor mSensorProximity;
+        Sensor mSensorLight;
+        String mTextSensorLight;
         String mTextSensorProximity;
 
-       mSensorProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+        mSensorProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
 
 //        if (mSensorLight == null) {
 //            Toast.makeText(getApplicationContext(),"nope",Toast.LENGTH_LONG).show();
@@ -85,19 +87,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             Toast.makeText(getApplicationContext(), "Inserted!", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
 
-           // if (e.toString().contains("code 1555"))
-                //Toast.makeText(getApplicationContext(), "Not inserted", Toast.LENGTH_SHORT).show();
+            // if (e.toString().contains("code 1555"))
+            //Toast.makeText(getApplicationContext(), "Not inserted", Toast.LENGTH_SHORT).show();
         }
-
 
 
         Register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(MainActivity.this,Reg.class);
+                Intent i = new Intent(MainActivity.this, Reg.class);
                 startActivity(i);
-                setContentView(R.layout.regactivity);
+                //setContentView(R.layout.regactivity);
 
             }
         });
@@ -109,48 +110,63 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
                 String user = uname.getText().toString();
                 String pwd = pass.getText().toString();
-                if (user.equals("") || pwd.equals("") ) {
+                if (user.equals("") || pwd.equals("")) {
                     Toast.makeText(getApplicationContext(), "Please enter all details!", Toast.LENGTH_LONG).show();
-                }
-                else{
-                Cursor c = database.rawQuery("SELECT * FROM Loginn WHERE TRIM(user) = '"+user.trim()+"' AND TRIM(pass)= '"+pwd.trim()+"'", null);
-                float[] results = new float[1];
-                double centerLatitude=13.3525;
-                double centerLongitude=74.7928;
-                double testLatitude=13.3525;
-                double testLongitude=74.7928;
+                } else {
+                    Cursor c = database.rawQuery("SELECT * FROM Loginn WHERE TRIM(user) = '" + user.trim() + "' AND TRIM(pass)= '" + pwd.trim() + "'", null);
+                    float[] results = new float[1];
+
+                    try {
 
 
+                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                        if (checkLocationPermission()) {
+                            mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-                Location.distanceBetween(centerLatitude, centerLongitude, testLatitude, testLongitude, results);
-                float distanceInMeters = results[0];
-                boolean isWithin10km = distanceInMeters < 100000;
-
-                if(c.moveToFirst() && isWithin10km){
-                    String s= c.getString(0);
-
-
-                    if(s.contains("stu")){
-
-                    Intent i = new Intent(MainActivity.this,StudentHome.class);
-                    startActivity(i);
-                    //setContentView(R.layout.shome);
-                         }
-                    else{
+                            System.out.println("************* HELOOOOO MAIN *************");
+                            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationListener);
+                        }
 
 
-                        Intent i = new Intent(MainActivity.this,TeacherHome.class);
-                        startActivity(i);
-                       // setContentView(R.layout.thome);
+                    } catch (SecurityException e) {
+                        //PERMISSION DENIED
+                        Toast.makeText(getApplicationContext(), "EXCEPTIONNNNNNN", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+
                     }
+                    double centerLatitude = 13.3525;
+                    double centerLongitude = 74.7928;
 
 
+
+                    Location.distanceBetween(centerLatitude, centerLongitude, testLatitude, testLongitude, results);
+                    float distanceInMeters = results[0];
+                    boolean isWithin10km = distanceInMeters < 100000;
+
+                    if (c.moveToFirst() && isWithin10km) {
+                        String s = c.getString(0);
+
+
+                        if (s.contains("stu")) {
+
+                            Intent i = new Intent(MainActivity.this, StudentHome.class);
+                            startActivity(i);
+                            //setContentView(R.layout.shome);
+                        } else {
+
+
+                            Intent i = new Intent(MainActivity.this, TeacherHome.class);
+                            startActivity(i);
+                            // setContentView(R.layout.thome);
+                        }
+
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Invalid Credentials or Not in Manipal Campus", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(getApplicationContext(),"ff"+testLatitude+" "+testLongitude + "" ,Toast.LENGTH_LONG).show();
+                    }
                 }
-                else {
-                    Toast.makeText(getApplicationContext(), "Invalid Credentials or Not in Manipal Campus", Toast.LENGTH_SHORT).show();
-
-                }
-            }}
+            }
         });
 
 
@@ -159,12 +175,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     protected void onStart() {
         super.onStart();
 
-           // mSensorManager.registerListener(this, mSensorProximity,
-             //       SensorManager.SENSOR_DELAY_NORMAL);
+        // mSensorManager.registerListener(this, mSensorProximity,
+        //       SensorManager.SENSOR_DELAY_NORMAL);
 
 
-            mSensorManager.registerListener(this, mSensorLight,
-                    SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mSensorLight,
+                SensorManager.SENSOR_DELAY_NORMAL);
 
     }
 
@@ -180,14 +196,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         switch (sensorType) {
             // Event came from the light sensor.
             case Sensor.TYPE_LIGHT:
-                if(currentValue>20000)
-                {
+                if (currentValue > 20000) {
                     //setTheme(android.R.style.Theme_Holo_Light);
                     //this.recreate();
-                  // Utils.changeToTheme(this, Utils.THEME_BLUE);
+                    // Utils.changeToTheme(this, Utils.THEME_BLUE);
                     findViewById(R.id.ff).setBackgroundColor(Color.parseColor("#ffffff"));
-                }
-                else{
+                } else {
                     //setTheme(android.R.style.Theme_Holo);
                     //this.recreate();
                     //Utils.changeToTheme(this, Utils.THEME_WHITE);
@@ -207,4 +221,45 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor sensor, int i) {
 
     }
+
+
+    public boolean checkLocationPermission() {
+        String permission = "android.permission.ACCESS_FINE_LOCATION";
+        int res = this.checkCallingOrSelfPermission(permission);
+        return (res == PackageManager.PERMISSION_GRANTED);
+    }
+
+
+    private final LocationListener mLocationListener = new LocationListener() {
+
+        @Override
+        public void onLocationChanged(final Location location) {
+            //your code here
+
+
+            System.out.println("************* HELOOOOO *************");
+            testLatitude = location.getLatitude();
+            testLongitude = location.getLongitude();
+
+            //Putting retrieved data into the database
+
+
+        }
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String s) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String s) {
+
+        }
+
+    };
 }

@@ -26,4 +26,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation 'com.android.support:design:26.1.0'
+    implementation 'com.github.GrenderG:Toasty:1.2.8'
+    compile 'com.github.Angtrim:Android-Five-Stars-Library:v3.1'
 }

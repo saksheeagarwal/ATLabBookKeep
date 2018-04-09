@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.database.Cursor;
 
+import es.dmoral.toasty.Toasty;
+
 
 public class Reg extends AppCompatActivity {
 
@@ -49,10 +51,10 @@ public class Reg extends AppCompatActivity {
                 {
                     try {
                         database.execSQL("UPDATE Loginn SET user='"+user+"', pass='"+pwd+"' WHERE invite='"+invite+"'");
-                        Toast.makeText(getApplicationContext(),"Registered!", Toast.LENGTH_SHORT).show();
+                        Toasty.success(getApplicationContext(), "Success!", Toast.LENGTH_SHORT, true).show();
+                        //oast.makeText(getApplicationContext(),"Registered!", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(Reg.this,MainActivity.class);
                         startActivity(i);
-                        setContentView(R.layout.activity_main);
                     }
                     catch (Exception ignore)
                     {

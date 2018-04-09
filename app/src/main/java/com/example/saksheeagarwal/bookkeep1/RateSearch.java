@@ -4,8 +4,10 @@ package com.example.saksheeagarwal.bookkeep1;
  * Created by saksheeagarwal on 3/23/18.
  */
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -18,6 +20,8 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 import java.util.ArrayList;
+
+import angtrim.com.fivestarslibrary.FiveStarsDialog;
 
 public class RateSearch extends AppCompatActivity {
 
@@ -37,7 +41,7 @@ public class RateSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ratesearch);
 
-
+   final Context context = this;
         name=(EditText)findViewById(R.id.name2);
 
         viewButton=(Button)findViewById(R.id.submit2);
@@ -98,10 +102,13 @@ public class RateSearch extends AppCompatActivity {
 
 //               RateSearch selItem = (RateSearch) lv.getSelectedItem();
 //                String value= selItem.toString();
-                Toast.makeText(getApplicationContext(),booklist.get(position).toString(),Toast.LENGTH_LONG).show();
+
+                //Toast.makeText(getApplicationContext(),booklist.get(position).toString(),Toast.LENGTH_LONG).show();
 
             }
         });
+
+
 
 
     }

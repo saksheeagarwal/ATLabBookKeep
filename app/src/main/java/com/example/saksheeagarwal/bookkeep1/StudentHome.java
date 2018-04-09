@@ -101,6 +101,17 @@ public class StudentHome extends AppCompatActivity implements SensorEventListene
             }
         });
 
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(StudentHome.this,ProfilePage.class);
+                startActivity(i);
+                //setContentView(R.layout.ratesearch);
+
+            }
+        });
+
 
 
 

@@ -44,8 +44,10 @@ public class TeacherHome extends AppCompatActivity implements SensorEventListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.thome);
-
-        setContentView(R.layout.activity_main);
+        search = (Button) findViewById(R.id.searchh2);
+        seerec = (Button) findViewById(R.id.seerec2);
+        rate= (Button) findViewById(R.id.rate2);
+        profile = (Button) findViewById(R.id.upload);
         mSensorManager =
                 (SensorManager) getSystemService(SENSOR_SERVICE);
         mSensorLight = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
@@ -63,10 +65,7 @@ public class TeacherHome extends AppCompatActivity implements SensorEventListene
         mSensorProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
 
 
-        search = (Button) findViewById(R.id.search2);
-        seerec = (Button) findViewById(R.id.seerec2);
-        rate= (Button) findViewById(R.id.rate2);
-        profile = (Button) findViewById(R.id.upload);
+
 
 
 
@@ -92,6 +91,16 @@ public class TeacherHome extends AppCompatActivity implements SensorEventListene
             }
         });
 
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(TeacherHome.this,ProfilePage.class);
+                startActivity(i);
+                //setContentView(R.layout.ratesearch);
+
+            }
+        });
 
 
 
