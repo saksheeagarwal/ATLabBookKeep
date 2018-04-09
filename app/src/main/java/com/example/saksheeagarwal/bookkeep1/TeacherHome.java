@@ -153,7 +153,7 @@ public class TeacherHome extends AppCompatActivity implements SensorEventListene
         switch (sensorType) {
             // Event came from the light sensor.
             case Sensor.TYPE_LIGHT:
-                if(currentValue>250)
+                if(currentValue>70)
                 {
                     //setTheme(android.R.style.Theme_Holo_Light);
                     //this.recreate();

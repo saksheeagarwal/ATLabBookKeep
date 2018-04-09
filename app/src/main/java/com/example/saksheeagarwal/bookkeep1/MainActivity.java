@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         switch (sensorType) {
             // Event came from the light sensor.
             case Sensor.TYPE_LIGHT:
-                if (currentValue > 250) {
+                if (currentValue > 70) {
                     //setTheme(android.R.style.Theme_Holo_Light);
                     //this.recreate();
                     // Utils.changeToTheme(this, Utils.THEME_BLUE);
