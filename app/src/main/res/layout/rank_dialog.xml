@@ -3,9 +3,10 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="2dip">
+    android:padding="2dip"
+    >
 
-    <TextView android:text="Doctor's Name" android:id="@+id/rank_dialog_text1"
+    <TextView android:text="Rate the Book" android:id="@+id/rank_dialog_text1"
         android:textSize="24dp" android:layout_marginTop="10dp"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:layout_gravity="center"/>
