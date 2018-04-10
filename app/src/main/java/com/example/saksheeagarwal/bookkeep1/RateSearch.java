@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RatingBar;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -27,9 +29,9 @@ import java.util.ArrayList;
 import es.dmoral.toasty.Toasty;
 
 
-public class RateSearch extends AppCompatActivity {
+public class RateSearch extends AppCompatActivity implements SearchView.OnQueryTextListener{
 
-    EditText name;
+    SearchView name;
 
     Button viewButton;
 
@@ -46,7 +48,7 @@ public class RateSearch extends AppCompatActivity {
         setContentView(R.layout.ratesearch);
 
    final Context context = this;
-        name=(EditText)findViewById(R.id.name2);
+        name=(SearchView) findViewById(R.id.name2);
 
         viewButton=(Button)findViewById(R.id.submit2);
 
@@ -72,22 +74,17 @@ public class RateSearch extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Not inserted", Toast.LENGTH_SHORT).show();
         }
 
-        viewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        booklist = new ArrayList<String>();
 
-                booklist = new ArrayList<String>();
-                String Author=name.getText().toString();
 
-                Cursor c = database.rawQuery("SELECT * FROM books WHERE TRIM(Author) = '"+Author.trim()+"' OR TRIM(bookName) = '"+Author.trim()+"'", new String[]{});
-                System.out.println("SELECT * FROM books WHERE TRIM(Author) = '"+Author.trim()+"' OR TRIM(bookName) = '"+Author.trim()+"'");
+        Cursor c = database.rawQuery("SELECT * FROM books", new String[]{});
                 if (c.moveToFirst()) {
                     do {
                         String id = c.getString(0);
                         String bname = c.getString(1);
                         String Auth = c.getString(6);
-                        booklist.add("ID :"+id+ "\nName :" + bname + "\nAuthor :" + Auth );
-                    }
+                        String avail = c.getString(7);
+                        booklist.add("ID : "+id+ "\nName : " + bname + "\nAuthor : " + Auth + "\nAvailability: " + avail);}
                     while (c.moveToNext());
 
                     c.close();
@@ -98,11 +95,41 @@ public class RateSearch extends AppCompatActivity {
                     ArrayAdapter<String> arrayAdapter =
                             new ArrayAdapter<String>(RateSearch.this,android.R.layout.simple_list_item_1, booklist);
                     lv.setAdapter(arrayAdapter);
+                    lv.setTextFilterEnabled(true);
+                    name.setOnQueryTextListener(this);
+                    setupSearchView();
 
-
-
-                }}
-        });
+//        viewButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                booklist = new ArrayList<String>();
+//                String Author=name.getText().toString();
+//
+//                Cursor c = database.rawQuery("SELECT * FROM books WHERE TRIM(Author) = '"+Author.trim()+"' OR TRIM(bookName) = '"+Author.trim()+"'", new String[]{});
+//                System.out.println("SELECT * FROM books WHERE TRIM(Author) = '"+Author.trim()+"' OR TRIM(bookName) = '"+Author.trim()+"'");
+//                if (c.moveToFirst()) {
+//                    do {
+//                        String id = c.getString(0);
+//                        String bname = c.getString(1);
+//                        String Auth = c.getString(6);
+//                        booklist.add("ID :"+id+ "\nName :" + bname + "\nAuthor :" + Auth );
+//                    }
+//                    while (c.moveToNext());
+//
+//                    c.close();
+//
+//                    // This is the array adapter, it takes the context of the activity as a
+//                    // first parameter, the type of list view as a second parameter and your
+//                    // array as a third parameter.
+//                    ArrayAdapter<String> arrayAdapter =
+//                            new ArrayAdapter<String>(RateSearch.this,android.R.layout.simple_list_item_1, booklist);
+//                    lv.setAdapter(arrayAdapter);
+//
+//
+//
+//                }}
+        }
         lv.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) { // Item position is in the variable position.
 
@@ -138,6 +165,26 @@ public class RateSearch extends AppCompatActivity {
 
 
 
+    }
+
+    private void setupSearchView() {
+        name.setIconifiedByDefault(false);
+        name.setOnQueryTextListener(this);
+        name.setSubmitButtonEnabled(false);
+        //name.setQueryHint(getString(R.string.booklist));
+    }
+
+    public boolean onQueryTextChange(String newText) {
+        if (TextUtils.isEmpty(newText)) {
+            lv.clearTextFilter();
+        } else {
+            lv.setFilterText(newText.toString());
+        }
+        return true;
+    }
+
+    public boolean onQueryTextSubmit(String query) {
+        return false;
     }
 }
 
