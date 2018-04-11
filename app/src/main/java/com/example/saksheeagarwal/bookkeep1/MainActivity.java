@@ -26,6 +26,8 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
+
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -175,8 +177,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
                     } else {
-                        Toast.makeText(getApplicationContext(), "Invalid Credentials or Not in Manipal Campus", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "Invalid Credentials or Not in Manipal Campus", Toast.LENGTH_SHORT).show();
                        // Toast.makeText(getApplicationContext(),"ff"+testLatitude+" "+testLongitude + "" ,Toast.LENGTH_LONG).show();
+                        Toasty.error(getApplicationContext(), "Invalid Credentials or Not in Manipal Campus", Toast.LENGTH_SHORT, true).show();
                     }
                 }
             }
@@ -213,14 +216,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     //setTheme(android.R.style.Theme_Holo_Light);
                     //this.recreate();
                     // Utils.changeToTheme(this, Utils.THEME_BLUE);
-                    findViewById(R.id.ff).setBackgroundColor(Color.parseColor("#ffffff"));
+                   // findViewById(R.id.ff).setBackgroundColor(Color.parseColor("#ffffff"));
                 } else {
                     //setTheme(android.R.style.Theme_Holo);
                     //this.recreate();
                     //Utils.changeToTheme(this, Utils.THEME_WHITE);
 
 
-                    findViewById(R.id.ff).setBackgroundColor(Color.parseColor("#000000"));
+                   // findViewById(R.id.ff).setBackgroundColor(Color.parseColor("#000000"));
 
                 }
 

@@ -39,16 +39,16 @@ public class ProfilePage extends AppCompatActivity {
 
         }
 
-        name.setText(naam);
+        name.setText("Name: "+ naam);
         try {
             database = openOrCreateDatabase("Bookkeep", MODE_PRIVATE, null);
-            database.execSQL("CREATE TABLE IF NOT EXISTS Dues (user VARCHAR(50) ,bookname VARCHAR(100) , dueDate VARCHAR(50));");
+            database.execSQL("CREATE TABLE IF NOT EXISTS Dues (user VARCHAR(50) ,bookname VARCHAR(100) primary key , dueDate VARCHAR(50));");
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
         }
         try {
-            database.execSQL("INSERT INTO Dues VALUES('f','pujari','20-4-2015')");
-            database.execSQL("INSERT INTO Dues VALUES('f','kindberg','25-4-2015')");
+            database.execSQL("INSERT INTO Dues VALUES('s','Data Warehousing and Data Mining','15-4-2015')");
+            database.execSQL("INSERT INTO Dues VALUES('s','Voice over IP Fundamentals','15-4-2015')");
         } catch (Exception e) {
 
             // if (e.toString().contains("code 1555"))
@@ -56,11 +56,11 @@ public class ProfilePage extends AppCompatActivity {
         }
 
         booklist = new ArrayList<String>();
-        Cursor c = database.rawQuery("SELECT * FROM Dues WHERE user='f'", null);
+        Cursor c = database.rawQuery("SELECT * FROM Dues WHERE user='s'", null);
         if (c.moveToFirst()) {
             do {
-                String bookname = c.getString(0);
-                String date = c.getString(1);
+                String bookname = c.getString(1);
+                String date = c.getString(2);
 
                 booklist.add("Book name: : "+bookname+ "\nDue date : " + date );
             }

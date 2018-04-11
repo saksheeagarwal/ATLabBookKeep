@@ -33,7 +33,7 @@ public class RateSearch extends AppCompatActivity implements SearchView.OnQueryT
 
     SearchView name;
 
-    Button viewButton;
+    //Button viewButton;
 
     SQLiteDatabase database;
     ListView lv;
@@ -50,7 +50,7 @@ public class RateSearch extends AppCompatActivity implements SearchView.OnQueryT
    final Context context = this;
         name=(SearchView) findViewById(R.id.name2);
 
-        viewButton=(Button)findViewById(R.id.submit2);
+        //viewButton=(Button)findViewById(R.id.submit2);
 
         lv = (ListView) findViewById(R.id.lv);
         //allStudents=new ArrayList<>();

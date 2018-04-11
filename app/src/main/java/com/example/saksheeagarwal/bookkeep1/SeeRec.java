@@ -41,10 +41,18 @@ public class SeeRec extends AppCompatActivity {
 
         final ArrayList<String> branchh = new ArrayList<String>();
         branchh.add("it");
-        branchh.add("CS");
+        branchh.add("cs");
+        branchh.add("mech");
+        branchh.add("chemical");
       final  ArrayList<String> semm = new ArrayList<String>();
+        semm.add("1");
+        semm.add("2");
+        semm.add("3");
+        semm.add("4");
+        semm.add("5");
         semm.add("6");
         semm.add("7");
+
         ArrayAdapter<String> branchadapter = new ArrayAdapter<String>(SeeRec.this
                 ,android.R.layout.simple_spinner_item,branchh);
         ArrayAdapter<String> semadapter = new ArrayAdapter<String>(SeeRec.this

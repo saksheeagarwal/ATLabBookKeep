@@ -4,6 +4,7 @@ package com.example.saksheeagarwal.bookkeep1;
  * Created by saksheeagarwal on 3/23/18.
  */
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -23,6 +24,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +42,8 @@ import android.widget.Toast;
         import android.widget.Toast;
 
         import java.util.ArrayList;
+
+import es.dmoral.toasty.Toasty;
 
 public class search extends AppCompatActivity implements SensorEventListener, SearchView.OnQueryTextListener  {
 
@@ -81,7 +85,7 @@ public class search extends AppCompatActivity implements SensorEventListener, Se
 
         mSensorProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
 
-        viewButton=(Button)findViewById(R.id.submit);
+       // viewButton=(Button)findViewById(R.id.submit);
 
         lv = (ListView) findViewById(R.id.lv);
         //allStudents=new ArrayList<>();
@@ -96,6 +100,9 @@ public class search extends AppCompatActivity implements SensorEventListener, Se
         }
         try {
             database.execSQL("INSERT INTO books VALUES('itc602','Voice over IP Fundamentals','it','6','cnw',4,'M.Morris Mano',10)");
+            database.execSQL("INSERT INTO books VALUES('itc607','Wren and martin','cs','5','english',4,'Some guy',1)");
+            database.execSQL("INSERT INTO books VALUES('itc608','TCP/IP Protocol suite','it','4','cnw',4,'Forouzan',1)");
+
             database.execSQL("INSERT INTO books VALUES('itc603','Data Warehousing and Data Mining','it','6','dwdm',3,'Arun Pujari',5)");
             database.execSQL("INSERT INTO books VALUES('ict443','Unified Modeling Language User Guide by Grady Booch','it','4','SE',3,'Grady Booch',2)");
             Toast.makeText(getApplicationContext(), "Inserted", Toast.LENGTH_SHORT).show();
@@ -113,7 +120,8 @@ public class search extends AppCompatActivity implements SensorEventListener, Se
                         String bname = c.getString(1);
                         String Auth = c.getString(6);
                         String avail = c.getString(7);
-                       booklist.add("ID : "+id+ "\nName : " + bname + "\nAuthor : " + Auth + "\nAvailability: " + avail);
+                        String rate = c.getString(5);
+                       booklist.add("ID : "+id+ "\nName : " + bname + "\nAuthor : " + Auth + "\nAvailability: " + avail + "\nRated: " + rate);
 
                     }
                     while (c.moveToNext());
@@ -125,6 +133,18 @@ public class search extends AppCompatActivity implements SensorEventListener, Se
                lv.setTextFilterEnabled(true);
                     name.setOnQueryTextListener(this);
                     setupSearchView();}
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) { // Item position is in the variable position.
+
+//
+
+                        Toasty.success(getApplicationContext(), "Successfully issued.! Issue Token: ABE123", Toast.LENGTH_SHORT, true).show();
+
+
+
+            }
+        });
 
 //        viewButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -187,7 +207,7 @@ public class search extends AppCompatActivity implements SensorEventListener, Se
                     //setTheme(android.R.style.Theme_Holo_Light);
                     //this.recreate();
                     // Utils.changeToTheme(this, Utils.THEME_BLUE);
-                    findViewById(R.id.ff).setBackgroundColor(Color.parseColor("#ffffff"));
+                   // findViewById(R.id.ff).setBackgroundColor(Color.parseColor("#ffffff"));
                 }
                 else{
                     //setTheme(android.R.style.Theme_Holo);
@@ -195,7 +215,7 @@ public class search extends AppCompatActivity implements SensorEventListener, Se
                     //Utils.changeToTheme(this, Utils.THEME_WHITE);
 
 
-                    findViewById(R.id.ff).setBackgroundColor(Color.parseColor("#000000"));
+                   // findViewById(R.id.ff).setBackgroundColor(Color.parseColor("#000000"));
 
                 }
 

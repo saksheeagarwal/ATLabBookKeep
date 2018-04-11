@@ -23,30 +23,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
-    <Button
-        android:id="@+id/submit"
-        android:layout_width="108dp"
-        android:layout_height="43dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/buttonshape"
-
-        android:shadowColor="#A7A8A3"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="5"
-        android:text="Search"
-        android:textColor="#4174D9"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.881"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <SearchView
         android:id="@+id/name"
-        android:layout_width="217dp"
+        android:layout_width="355dp"
         android:layout_height="53dp"
 
         android:layout_marginTop="8dp"
